@@ -33,13 +33,11 @@
         this.lastUpDeltas.push(lastDelta);
         this.lastUpDeltas.shift();
         temp = this.isInertia(1);
-        console.log("inertia: " + temp);
         return this.isInertia(1);
       } else {
         this.lastDownDeltas.push(lastDelta);
         this.lastDownDeltas.shift();
         temp = this.isInertia(-1);
-        console.log("inertia: " + temp);
         return this.isInertia(-1);
       }
       return false;
@@ -59,7 +57,6 @@
       oldAverage = oldSum / lastDeltasOld.length;
       newAverage = newSum / lastDeltasNew.length;
       if ((oldAverage * direction) < (newAverage * direction * this.tolerance) && (Math.abs(oldAverage) > 100)) {
-        console.log(newAverage);
         return false;
       } else {
         return true;

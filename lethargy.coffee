@@ -16,14 +16,14 @@ class root.Lethargy
       @lastUpDeltas.push(lastDelta)
       @lastUpDeltas.shift()
       temp = @isInertia(1)
-      console.log "inertia: " + temp
+      # console.log "inertia: " + temp
       return @isInertia(1)
     else
       # scrollDown
       @lastDownDeltas.push(lastDelta)
       @lastDownDeltas.shift()
       temp = @isInertia(-1)
-      console.log "inertia: " + temp
+      # console.log "inertia: " + temp
       return @isInertia(-1)
     false;
 
@@ -41,7 +41,7 @@ class root.Lethargy
     # console.log "newAverage: " + newAverage
 
     if (oldAverage * direction) < (newAverage * direction * @tolerance) && (Math.abs(oldAverage) > 100)
-      console.log newAverage
+      # console.log newAverage
       false
     else
       true
