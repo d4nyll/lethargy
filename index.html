@@ -69,7 +69,7 @@
 			$(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
 				e.preventDefault()
 				e.stopPropagation();
-				lethargy.check(e);
+				console.log(lethargy.check(e));
 			});
 			$('.showUp').bind('click', function(e) {
 				lethargy.showLastUpDeltas();

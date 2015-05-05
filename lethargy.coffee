@@ -5,8 +5,8 @@ class root.Lethargy
     # console.log range
     @range = if range? then Math.abs range else 5
     @tolerance = if tolerance? then 1 + Math.abs tolerance else 1.1
-    @lastUpDeltas = (0 for [1..(@range * 2)])
-    @lastDownDeltas = (0 for [1..(@range * 2)])
+    @lastUpDeltas = (null for [1..(@range * 2)])
+    @lastDownDeltas = (null for [1..(@range * 2)])
 
   check: (e) ->
     lastDelta = e.originalEvent.wheelDelta
@@ -15,20 +15,18 @@ class root.Lethargy
       # scrollUp
       @lastUpDeltas.push(lastDelta)
       @lastUpDeltas.shift()
-      temp = @isInertia(1)
-      # console.log "inertia: " + temp
       return @isInertia(1)
     else
       # scrollDown
       @lastDownDeltas.push(lastDelta)
       @lastDownDeltas.shift()
-      temp = @isInertia(-1)
-      # console.log "inertia: " + temp
       return @isInertia(-1)
     false;
 
   isInertia: (direction) ->
     lastDeltas = if direction == -1 then @lastDownDeltas else @lastUpDeltas
+    if Math.abs(lastDeltas[lastDeltas.length - 1]) == 120 || lastDeltas[0] == null
+      return false
     lastDeltasOld = lastDeltas.slice(0, @range)
     lastDeltasNew = lastDeltas.slice(@range, (@range * 2))
 
@@ -40,7 +38,7 @@ class root.Lethargy
     # console.log "oldAverage: " + oldAverage
     # console.log "newAverage: " + newAverage
 
-    if (oldAverage * direction) < (newAverage * direction * @tolerance) && (Math.abs(oldAverage) > 100)
+    if Math.abs(oldAverage) < Math.abs(newAverage * @tolerance) && (100 < Math.abs(newAverage))
       # console.log newAverage
       false
     else

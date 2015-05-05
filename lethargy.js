@@ -12,7 +12,7 @@
         var i, ref, results;
         results = [];
         for (i = 1, ref = this.range * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
-          results.push(0);
+          results.push(null);
         }
         return results;
       }).call(this);
@@ -20,24 +20,22 @@
         var i, ref, results;
         results = [];
         for (i = 1, ref = this.range * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
-          results.push(0);
+          results.push(null);
         }
         return results;
       }).call(this);
     }
 
     Lethargy.prototype.check = function(e) {
-      var lastDelta, temp;
+      var lastDelta;
       lastDelta = e.originalEvent.wheelDelta;
       if (lastDelta > 0) {
         this.lastUpDeltas.push(lastDelta);
         this.lastUpDeltas.shift();
-        temp = this.isInertia(1);
         return this.isInertia(1);
       } else {
         this.lastDownDeltas.push(lastDelta);
         this.lastDownDeltas.shift();
-        temp = this.isInertia(-1);
         return this.isInertia(-1);
       }
       return false;
@@ -46,6 +44,9 @@
     Lethargy.prototype.isInertia = function(direction) {
       var lastDeltas, lastDeltasNew, lastDeltasOld, newAverage, newSum, oldAverage, oldSum;
       lastDeltas = direction === -1 ? this.lastDownDeltas : this.lastUpDeltas;
+      if (Math.abs(lastDeltas[lastDeltas.length - 1]) === 120 || lastDeltas[0] === null) {
+        return false;
+      }
       lastDeltasOld = lastDeltas.slice(0, this.range);
       lastDeltasNew = lastDeltas.slice(this.range, this.range * 2);
       oldSum = lastDeltasOld.reduce(function(t, s) {
@@ -56,7 +57,7 @@
       });
       oldAverage = oldSum / lastDeltasOld.length;
       newAverage = newSum / lastDeltasNew.length;
-      if ((oldAverage * direction) < (newAverage * direction * this.tolerance) && (Math.abs(oldAverage) > 100)) {
+      if (Math.abs(oldAverage) < Math.abs(newAverage * this.tolerance) && (100 < Math.abs(newAverage))) {
         return false;
       } else {
         return true;
