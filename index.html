@@ -10,6 +10,8 @@
 </head>
 <body>
 	<div id="nessages">
+		<button class="showUp">Show Up</button>
+		<button class="showDown">Showdown</button>
 		<p>Sample text</p>
 		<p>Sample text</p>
 		<p>Sample text</p>
@@ -61,5 +63,28 @@
 		<p>Sample text</p>
 		<p>Sample text</p>
 	</div>
+	<script>
+		(function() {
+			var lethargy = new Lethargy();
+			$(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
+				e.preventDefault()
+				e.stopPropagation();
+				lethargy.check(e);
+			});
+			$('.showUp').bind('click', function(e) {
+				lethargy.showLastUpDeltas();
+			});
+			$('.showDown').bind('click', function(e) {
+				lethargy.showLastDownDeltas();
+			});
+			// var runFunction = function() {
+		 //        var div = document.createElement('div');
+		 //        div.innerHTML = Date.now();
+		 //        $('#messageBox').append(div);
+		 //    }
+		    
+		 //    setInterval(runFunction, 1000);
+		})();
+	</script>
 </body>
 </html>
