@@ -9,7 +9,11 @@ class root.Lethargy
     @lastDownDeltas = (null for [1..(@stability * 2)])
 
   check: (e) ->
-    lastDelta = e.originalEvent.wheelDelta
+    lastDelta
+    if e.originalEvent.deltaY? or e.originalEvent.detail?
+      lastDelta = e.originalEvent.deltaY * 40
+    else if e.originalEvent.wheelDelta?
+      lastDelta = e.originalEvent.wheelDelta
     if (lastDelta > 0)
       @lastUpDeltas.push(lastDelta)
       @lastUpDeltas.shift()

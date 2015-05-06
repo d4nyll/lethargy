@@ -28,8 +28,13 @@
     }
 
     Lethargy.prototype.check = function(e) {
+      lastDelta;
       var lastDelta;
-      lastDelta = e.originalEvent.wheelDelta;
+      if ((e.originalEvent.deltaY != null) || (e.originalEvent.detail != null)) {
+        lastDelta = e.originalEvent.deltaY * 40;
+      } else if (e.originalEvent.wheelDelta != null) {
+        lastDelta = e.originalEvent.wheelDelta;
+      }
       if (lastDelta > 0) {
         this.lastUpDeltas.push(lastDelta);
         this.lastUpDeltas.shift();
