@@ -5,13 +5,14 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   root.Lethargy = (function() {
-    function Lethargy(range, tolerance) {
-      this.range = range != null ? Math.abs(range) : 5;
+    function Lethargy(stability, sensitivity, tolerance) {
+      this.stability = stability != null ? Math.abs(stability) : 8;
+      this.sensitivity = sensitivity != null ? 1 + Math.abs(sensitivity) : 100;
       this.tolerance = tolerance != null ? 1 + Math.abs(tolerance) : 1.1;
       this.lastUpDeltas = (function() {
         var i, ref, results;
         results = [];
-        for (i = 1, ref = this.range * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
+        for (i = 1, ref = this.stability * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
           results.push(null);
         }
         return results;
@@ -19,7 +20,7 @@
       this.lastDownDeltas = (function() {
         var i, ref, results;
         results = [];
-        for (i = 1, ref = this.range * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
+        for (i = 1, ref = this.stability * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
           results.push(null);
         }
         return results;
@@ -44,11 +45,11 @@
     Lethargy.prototype.isInertia = function(direction) {
       var lastDeltas, lastDeltasNew, lastDeltasOld, newAverage, newSum, oldAverage, oldSum;
       lastDeltas = direction === -1 ? this.lastDownDeltas : this.lastUpDeltas;
-      if (Math.abs(lastDeltas[lastDeltas.length - 1]) === 120 || lastDeltas[0] === null) {
-        return false;
+      if (lastDeltas[0] === null) {
+        return direction;
       }
-      lastDeltasOld = lastDeltas.slice(0, this.range);
-      lastDeltasNew = lastDeltas.slice(this.range, this.range * 2);
+      lastDeltasOld = lastDeltas.slice(0, this.stability);
+      lastDeltasNew = lastDeltas.slice(this.stability, this.stability * 2);
       oldSum = lastDeltasOld.reduce(function(t, s) {
         return t + s;
       });
@@ -57,19 +58,19 @@
       });
       oldAverage = oldSum / lastDeltasOld.length;
       newAverage = newSum / lastDeltasNew.length;
-      if (Math.abs(oldAverage) < Math.abs(newAverage * this.tolerance) && (100 < Math.abs(newAverage))) {
-        return false;
+      if (Math.abs(oldAverage) < Math.abs(newAverage * this.tolerance) && (this.sensitivity < Math.abs(newAverage))) {
+        return direction;
       } else {
-        return true;
+        return false;
       }
     };
 
     Lethargy.prototype.showLastUpDeltas = function() {
-      return console.log(this.lastUpDeltas);
+      return this.lastUpDeltas;
     };
 
     Lethargy.prototype.showLastDownDeltas = function() {
-      return console.log(this.lastDownDeltas);
+      return this.lastDownDeltas;
     };
 
     return Lethargy;
