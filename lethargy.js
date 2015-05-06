@@ -25,16 +25,28 @@
         }
         return results;
       }).call(this);
+      this.deltasTimestamp = (function() {
+        var i, ref, results;
+        results = [];
+        for (i = 1, ref = this.stability * 2; 1 <= ref ? i <= ref : i >= ref; 1 <= ref ? i++ : i--) {
+          results.push(null);
+        }
+        return results;
+      }).call(this);
     }
 
     Lethargy.prototype.check = function(e) {
       lastDelta;
       var lastDelta;
-      if ((e.originalEvent.deltaY != null) || (e.originalEvent.detail != null)) {
-        lastDelta = e.originalEvent.deltaY * 40;
-      } else if (e.originalEvent.wheelDelta != null) {
+      if (e.originalEvent.wheelDelta != null) {
         lastDelta = e.originalEvent.wheelDelta;
+      } else if (e.originalEvent.deltaY != null) {
+        lastDelta = e.originalEvent.deltaY * 40;
+      } else if ((e.originalEvent.detail != null) || e.originalEvent.detail === 0) {
+        lastDelta = e.originalEvent.detail * 40;
       }
+      this.deltasTimestamp.push(Date.now());
+      this.deltasTimestamp.shift();
       if (lastDelta > 0) {
         this.lastUpDeltas.push(lastDelta);
         this.lastUpDeltas.shift();
@@ -52,6 +64,9 @@
       lastDeltas = direction === -1 ? this.lastDownDeltas : this.lastUpDeltas;
       if (lastDeltas[0] === null) {
         return direction;
+      }
+      if (this.deltasTimestamp[(this.stability * 2) - 2] + 150 > Date.now() && lastDeltas[0] === lastDeltas[(this.stability * 2) - 1]) {
+        return false;
       }
       lastDeltasOld = lastDeltas.slice(0, this.stability);
       lastDeltasNew = lastDeltas.slice(this.stability, this.stability * 2);

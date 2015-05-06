@@ -7,13 +7,20 @@ class root.Lethargy
     @tolerance = if tolerance? then 1 + Math.abs tolerance else 1.1
     @lastUpDeltas = (null for [1..(@stability * 2)])
     @lastDownDeltas = (null for [1..(@stability * 2)])
+    @deltasTimestamp = (null for [1..(@stability * 2)])
 
   check: (e) ->
     lastDelta
-    if e.originalEvent.deltaY? or e.originalEvent.detail?
-      lastDelta = e.originalEvent.deltaY * 40
-    else if e.originalEvent.wheelDelta?
+    if e.originalEvent.wheelDelta?
       lastDelta = e.originalEvent.wheelDelta
+    else if e.originalEvent.deltaY?
+      lastDelta = e.originalEvent.deltaY * 40
+    else if (e.originalEvent.detail? or e.originalEvent.detail == 0)
+      lastDelta = e.originalEvent.detail * 40
+
+    @deltasTimestamp.push(Date.now())
+    @deltasTimestamp.shift()
+
     if (lastDelta > 0)
       @lastUpDeltas.push(lastDelta)
       @lastUpDeltas.shift()
@@ -28,6 +35,8 @@ class root.Lethargy
     lastDeltas = if direction == -1 then @lastDownDeltas else @lastUpDeltas
     if lastDeltas[0] == null
       return direction
+    if @deltasTimestamp[(this.stability * 2) - 2] + 150 > Date.now() and lastDeltas[0] == lastDeltas[(@stability * 2) - 1]
+      return false
     lastDeltasOld = lastDeltas.slice(0, @stability)
     lastDeltasNew = lastDeltas.slice(@stability, (@stability * 2))
 

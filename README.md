@@ -1,7 +1,12 @@
 # Lethargy
-Distinguish between scroll events initiated by the user, and those by inertial scrolling.
+
+Lethargy is a tiny (598b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does have external dependencies.
 
 ### Install
+
+Download `lethargy.js` or `lethargy.min.js`, or use Bower:
+
+    bower install lethargy
 
 ### Use
 
@@ -60,11 +65,9 @@ As you can see, the Desktop Mouse emits small
 
 Lethargy keeps a record of the last few `wheelDelta` values that is passed through it, it will then work out whether these values are decreasing (decaying), and if so, concludes that the scroll event originated from inertial scrolling, and not directly from the user.
 
-### Limitations and Future Development
+### Limitations
 
-Not all trackpads work the same, some trackpads do not have a decaying `wheelDelta` value, and so at the moment, there's no way for Lethargy to distinguish between these events.
-
-We can experiment with the time interval in which these events are emitted, but that will require a lot of effort and won't start until other areas are polished.
+Not all trackpads work the same, some trackpads do not have a decaying `wheelDelta` value, and so our method of decay detection would not work. Instead, to cater for this situation, we had to, grudgingly, set a very small time delay between when events will register. We have tested this and for normal use does not affect user experience more than usual.
 
 **ASUS Trackpad**
 
