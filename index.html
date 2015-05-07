@@ -4,25 +4,32 @@
 	<meta charset="UTF-8">
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link href="./global.css" rel="stylesheet" type="text/css">
 	<title>Lethargy demo</title>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="./lethargy.js"></script>
 </head>
 <body>
-	<div id="nessages">
-		<p>Open up your console
+	<div class="content">
+		<h3>Lethargy Demo</h3>
+		<p>Start scrolling!</p>
+		<p>Starts off as <span class="inactive">gray</span>, <span class="active">green</span> indicates scroll event, <span class="inertial">red</span> when the event is blocked.</p>
+		<p>If you scroll with your mouse or trackpad, you'll see a brief flash of green, and then red. This is how lethargy works - each scroll <em>intent</em> is meant to fire only one block of events.</p>
+		<div class="indicator"></div>
 	</div>
 	<script>
 		(function() {
+			document.getElementsByClassName('indicator')[0].style.backgroundColor = "gray";
 			var lethargy = new Lethargy();
 			$(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
 				e.preventDefault()
 				e.stopPropagation();
 				var result = lethargy.check(e);
+				console.log(result);
 				if(result !== false) {
-					console.log(result);
+					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#1AB742";
 				} else {
-					console.log("inertial")
+					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#E8305D";
 				}
 			});
 		})();
