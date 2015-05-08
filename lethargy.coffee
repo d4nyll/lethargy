@@ -12,13 +12,10 @@ class root.Lethargy
   check: (e) ->
     lastDelta
     if e.originalEvent.wheelDelta?
-      console.log "wheelDelta: " + e.originalEvent.wheelDelta
       lastDelta = e.originalEvent.wheelDelta
     else if e.originalEvent.deltaY?
-      console.log "deltaY: " + e.originalEvent.deltaY
       lastDelta = e.originalEvent.deltaY * -40
     else if (e.originalEvent.detail? or e.originalEvent.detail == 0)
-      console.log "detail: " + e.originalEvent.detail
       lastDelta = e.originalEvent.detail * -40
 
     @deltasTimestamp.push(Date.now())

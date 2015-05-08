@@ -1,6 +1,6 @@
 # Lethargy
 
-Lethargy is a tiny (635b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does have external dependencies.
+Lethargy is a tiny (599b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does have external dependencies.
 
 ### [Demo](http://d4nyll.github.io/lethargy/)
 
