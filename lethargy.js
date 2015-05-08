@@ -39,11 +39,14 @@
       lastDelta;
       var lastDelta;
       if (e.originalEvent.wheelDelta != null) {
+        console.log("wheelDelta: " + e.originalEvent.wheelDelta);
         lastDelta = e.originalEvent.wheelDelta;
       } else if (e.originalEvent.deltaY != null) {
-        lastDelta = e.originalEvent.deltaY * 40;
+        console.log("deltaY: " + e.originalEvent.deltaY);
+        lastDelta = e.originalEvent.deltaY * -40;
       } else if ((e.originalEvent.detail != null) || e.originalEvent.detail === 0) {
-        lastDelta = e.originalEvent.detail * 40;
+        console.log("detail: " + e.originalEvent.detail);
+        lastDelta = e.originalEvent.detail * -40;
       }
       this.deltasTimestamp.push(Date.now());
       this.deltasTimestamp.shift();
