@@ -23,6 +23,8 @@ Create an instance of Lethargy. You may pass in options (see below), but usually
     var lethargy = new Lethargy(); // Use defaults
     var lethargy = new Lethargy(7, 100, 0.05); // Tinkering with the options
 
+> If you found optimizations for the defaults, please share it in this [ticket](https://github.com/d4nyll/lethargy/issues/2)!
+
 Bind the mousewheel or scroll events and pass the event to Lethargy.
 
     $(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
