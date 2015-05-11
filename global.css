@@ -10,6 +10,11 @@ body {
 	display: table;
 }
 
+a {
+	font-weight: 700;
+	color: inherit;
+}
+
 .active
 ,.inertial
 ,.inactive {
