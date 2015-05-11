@@ -10,6 +10,7 @@ class root.Lethargy
     @deltasTimestamp = (null for [1..(@stability * 2)])
 
   check: (e) ->
+    e = e.originalEvent || e
     lastDelta
     if e.wheelDelta?
       lastDelta = e.wheelDelta
