@@ -1,6 +1,8 @@
 # Lethargy
 
-Lethargy is a tiny (586b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does have external dependencies.
+Lethargy is a tiny (586b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does ***not*** have external dependencies.
+
+Lethargy is used in [smartscroll](https://github.com/d4nyll/smartscroll), a jQuery scroll plugin, to resolve problems with inertial scrolling.
 
 ### [Demo](http://d4nyll.github.io/lethargy/)
 
@@ -22,9 +24,12 @@ Include `lethargy.min.js` in your document.
 
     <script src="./lethargy.js"></script>
 
-Create an instance of Lethargy, passing in any options (see below).
+Create an instance of Lethargy. You may pass in options (see below), but usually the default is good enough.
 
-    var lethargy = new Lethargy(7, 100, 0.05);
+    var lethargy = new Lethargy(); // Use defaults
+    var lethargy = new Lethargy(7, 100, 0.05); // Tinkering with the options
+
+> If you found optimizations for the defaults, please share it in this [ticket](https://github.com/d4nyll/lethargy/issues/2)!
 
 Bind the mousewheel or scroll events and pass the event to Lethargy.
 
