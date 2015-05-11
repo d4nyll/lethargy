@@ -4,7 +4,8 @@
   "description": "Distinguish between scroll events initiated by the user, and those by inertial scrolling",
   "main": "lethargy.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
+    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,10 @@
   "bugs": {
     "url": "https://github.com/d4nyll/lethargy/issues"
   },
-  "homepage": "https://github.com/d4nyll/lethargy"
+  "homepage": "https://github.com/d4nyll/lethargy",
+  "devDependencies": {
+    "jquery": "^2.1.4",
+    "prova": "^2.1.2",
+    "tiny-trigger": "scottcorgan/tiny-trigger"
+  }
 }
