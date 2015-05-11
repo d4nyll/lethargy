@@ -11,12 +11,12 @@ class root.Lethargy
 
   check: (e) ->
     lastDelta
-    if e.originalEvent.wheelDelta?
-      lastDelta = e.originalEvent.wheelDelta
-    else if e.originalEvent.deltaY?
-      lastDelta = e.originalEvent.deltaY * -40
-    else if (e.originalEvent.detail? or e.originalEvent.detail == 0)
-      lastDelta = e.originalEvent.detail * -40
+    if e.wheelDelta?
+      lastDelta = e.wheelDelta
+    else if e.deltaY?
+      lastDelta = e.deltaY * -40
+    else if (e.detail? or e.detail == 0)
+      lastDelta = e.detail * -40
 
     @deltasTimestamp.push(Date.now())
     @deltasTimestamp.shift()

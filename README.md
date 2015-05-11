@@ -1,14 +1,20 @@
 # Lethargy
 
-Lethargy is a tiny (599b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does have external dependencies.
+Lethargy is a tiny (586b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does have external dependencies.
 
 ### [Demo](http://d4nyll.github.io/lethargy/)
 
 ### Install
 
-Download `lethargy.js` or `lethargy.min.js`, or use Bower:
+Download `lethargy.js` or `lethargy.min.js`
+
+**Bower**
 
     bower install lethargy
+
+**npm**
+
+    npm install lethargy
 
 ### Use
 
