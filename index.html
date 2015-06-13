@@ -6,18 +6,23 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href="./global.css" rel="stylesheet" type="text/css">
 	<title>Lethargy demo</title>
-	<script src="./lethargy.min.js"></script>
 </head>
 <body>
 	<div class="content">
 		<h1>Lethargy Demo</h1>
-		<a href="https://github.com/d4nyll/lethargy" target="_blank">GitHub</a>, <a href="http://blog.danyll.com/lethargy-tackling-inertial-scroll/" target="_blank">Blog</a>
-		<p>Start scrolling!</p>
+		<p class="cta">Start scrolling!</p>
 		<p>Starts off as <span class="inactive">gray</span>, <span class="active">green</span> indicates scroll event, <span class="inertial">red</span> when the event is blocked.</p>
 		<p>If you scroll with your mouse or trackpad, you'll see a brief flash of green, and then red. This is how lethargy works - each scroll <em>intent</em> is meant to fire only one block of events.</p>
 		<div class="indicator"></div>
+		<p><small>(Open up your console to see each data point!)</small></p>
+		<a href="https://github.com/d4nyll/lethargy" target="_blank">GitHub</a>, <a href="http://blog.danyll.com/lethargy-tackling-inertial-scroll/" target="_blank">Blog</a>
 	</div>
+	<!--First, include the Lethargy library-->
+	<script src="./lethargy.min.js"></script>
+
+	<!--Next, bind your scroll events to run a function that checks with lethargy-->
 	<script>
+		// Cross-browser bind without using JQuery, taken from http://stackoverflow.com/a/3076693/3966682
 		function addEvent(el, eventType, handler) {
 			if (el.addEventListener) { // DOM Level 2 browsers
 				el.addEventListener(eventType, handler, false);
@@ -30,10 +35,19 @@
 		(function() {
 			document.getElementsByClassName('indicator')[0].style.backgroundColor = "gray";
 			var lethargy = new Lethargy();
+
+			// Define the function to run on mousewheel
 			var checkScroll = function (e) {
 				e.preventDefault()
 				e.stopPropagation();
+
+				// Lethargy.check() must only be called once per mouse event
+				// If you need to use the result in more than one place
+				// you MUST store it as a variable and use that variable instead
+				// See https://github.com/d4nyll/lethargy/issues/5
 				var result = lethargy.check(e);
+
+				// false means it's not a scroll intent, 1 or -1 means it is
 				console.log(result);
 				if(result !== false) {
 					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#1AB742";
@@ -42,6 +56,7 @@
 				}
 			};
 
+			// Cross-browser way to bind to mouse events
 			addEvent(window, 'mousewheel', checkScroll);
 			addEvent(window, 'DOMMouseScroll', checkScroll);
 			addEvent(window, 'wheel', checkScroll);
