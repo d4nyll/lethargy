@@ -17,27 +17,15 @@
 		<p><small>(Open up your console to see each data point!)</small></p>
 		<a href="https://github.com/d4nyll/lethargy" target="_blank">GitHub</a>, <a href="http://blog.danyll.com/lethargy-tackling-inertial-scroll/" target="_blank">Blog</a>
 	</div>
-	<!--First, include the Lethargy library-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="./lethargy.min.js"></script>
-
-	<!--Next, bind your scroll events to run a function that checks with lethargy-->
 	<script>
-		// Cross-browser bind without using JQuery, taken from http://stackoverflow.com/a/3076693/3966682
-		function addEvent(el, eventType, handler) {
-			if (el.addEventListener) { // DOM Level 2 browsers
-				el.addEventListener(eventType, handler, false);
-			} else if (el.attachEvent) { // IE <= 8
-				el.attachEvent('on' + eventType, handler);
-			} else { // ancient browsers
-				el['on' + eventType] = handler;
-			}
-		};
 		(function() {
-			document.getElementsByClassName('indicator')[0].style.backgroundColor = "gray";
+			$('.indicator').css("background-color", "gray");
 			var lethargy = new Lethargy();
 
-			// Define the function to run on mousewheel
-			var checkScroll = function (e) {
+			// Bind all mousewheel events and pass it to Lethargy.check()
+			$(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
 				e.preventDefault()
 				e.stopPropagation();
 
@@ -50,18 +38,11 @@
 				// false means it's not a scroll intent, 1 or -1 means it is
 				console.log(result);
 				if(result !== false) {
-					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#1AB742";
+					$('.indicator').css("background-color", "#1AB742");
 				} else {
-					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#E8305D";
+					$('.indicator').css("background-color", "#E8305D");
 				}
-			};
-
-			// Cross-browser way to bind to mouse events
-			addEvent(window, 'mousewheel', checkScroll);
-			addEvent(window, 'DOMMouseScroll', checkScroll);
-			addEvent(window, 'wheel', checkScroll);
-			addEvent(window, 'MozMousePixelScroll', checkScroll);
-			
+			});
 		})();
 	</script>
 </body>

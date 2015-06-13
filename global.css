@@ -15,6 +15,15 @@ a {
 	color: inherit;
 }
 
+h1 {
+	font-size: 3rem;
+}
+
+.cta {
+	font-size: 2rem;
+	font-weight: 700;
+}
+
 .active
 ,.inertial
 ,.inactive {
