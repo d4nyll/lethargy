@@ -6,6 +6,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href="./global.css" rel="stylesheet" type="text/css">
 	<title>Lethargy demo</title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="./lethargy.min.js"></script>
 </head>
 <body>
@@ -18,19 +19,10 @@
 		<div class="indicator"></div>
 	</div>
 	<script>
-		function addEvent(el, eventType, handler) {
-			if (el.addEventListener) { // DOM Level 2 browsers
-				el.addEventListener(eventType, handler, false);
-			} else if (el.attachEvent) { // IE <= 8
-				el.attachEvent('on' + eventType, handler);
-			} else { // ancient browsers
-				el['on' + eventType] = handler;
-			}
-		};
 		(function() {
 			document.getElementsByClassName('indicator')[0].style.backgroundColor = "gray";
 			var lethargy = new Lethargy();
-			var checkScroll = function (e) {
+			$(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
 				e.preventDefault()
 				e.stopPropagation();
 				var result = lethargy.check(e);
@@ -40,13 +32,7 @@
 				} else {
 					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#E8305D";
 				}
-			};
-
-			addEvent(window, 'mousewheel', checkScroll);
-			addEvent(window, 'DOMMouseScroll', checkScroll);
-			addEvent(window, 'wheel', checkScroll);
-			addEvent(window, 'MozMousePixelScroll', checkScroll);
-			
+			});
 		})();
 	</script>
 </body>
