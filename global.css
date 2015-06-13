@@ -19,9 +19,13 @@ h1 {
 	font-size: 3rem;
 }
 
-.cta {
-	font-size: 2rem;
-	font-weight: 700;
+table {
+	margin: 0 auto;
+	margin-bottom: 50px;
+}
+
+td {
+	width: 100px;
 }
 
 .active
@@ -38,6 +42,19 @@ h1 {
 .inactive {
 	color: gray;
 }
+
+.indicator.active {
+	background-color: #1AB742;
+}
+
+.indicator.inertial {
+	background-color: #E8305D;
+}
+
+.indicator.inactive {
+	background-color: gray;
+}
+
 .indicator {
 	height: 30px;
 	width: 30px;
@@ -52,6 +69,8 @@ h1 {
 }
 
 .content > p, .content > h3 {
-	margin-left: 20%;
-	margin-right: 20%;
+	width: 400px;
+	max-width: 80%;
+	margin-left: auto;
+	margin-right: auto;
 }

@@ -10,12 +10,21 @@
 <body>
 	<div class="content">
 		<h1>Lethargy Demo</h1>
-		<p class="cta">Start scrolling!</p>
-		<p>Starts off as <span class="inactive">gray</span>, <span class="active">green</span> indicates scroll event, <span class="inertial">red</span> when the event is blocked.</p>
-		<p>If you scroll with your mouse or trackpad, you'll see a brief flash of green, and then red. This is how lethargy works - each scroll <em>intent</em> is meant to fire only one block of events.</p>
-		<div class="indicator"></div>
-		<p><small>(Open up your console to see each data point!)</small></p>
-		<a href="https://github.com/d4nyll/lethargy" target="_blank">GitHub</a>, <a href="http://blog.danyll.com/lethargy-tackling-inertial-scroll/" target="_blank">Blog</a>
+		<p>Each scroll <em>intent</em> should fire only one block of events, regardless of the device - mousewheel or trackpad. Start scrolling!</p>
+		<table>
+		  <tr>
+		    <td><div class="inactive indicator"></div></td>
+		    <td><div class="active indicator"></div></td>
+		    <td><div class="inertial indicator"></div></td>
+		  </tr>
+		  <tr>
+		    <td><span class="inactive">Initialized</span></td>
+		    <td><span class="active">Intent</span></td>
+		    <td><span class="inertial">Inertial</span></td>
+		  </tr>
+		</table>
+		<div class="current indicator"></div>
+		<p><small>Open up your console to see each data point! This demo uses native JavaScript, but Lethargy also works <a href="https://github.com/d4nyll/lethargy/with-jquery" target="_self">with jQuery</a>, Star us on <a href="https://github.com/d4nyll/lethargy" target="_blank">GitHub</a>, or visit the <a href="http://blog.danyll.com/lethargy-tackling-inertial-scroll/" target="_blank">Blog</a> to understand its design.</small></p>
 	</div>
 	<!--First, include the Lethargy library-->
 	<script src="./lethargy.min.js"></script>
@@ -33,7 +42,7 @@
 			}
 		};
 		(function() {
-			document.getElementsByClassName('indicator')[0].style.backgroundColor = "gray";
+			document.getElementsByClassName('current')[0].style.backgroundColor = "gray";
 			var lethargy = new Lethargy();
 
 			// Define the function to run on mousewheel
@@ -50,9 +59,9 @@
 				// false means it's not a scroll intent, 1 or -1 means it is
 				console.log(result);
 				if(result !== false) {
-					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#1AB742";
+					document.getElementsByClassName('current')[0].style.backgroundColor = "#1AB742";
 				} else {
-					document.getElementsByClassName('indicator')[0].style.backgroundColor = "#E8305D";
+					document.getElementsByClassName('current')[0].style.backgroundColor = "#E8305D";
 				}
 			};
 
