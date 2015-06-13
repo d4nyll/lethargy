@@ -5,10 +5,11 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   root.Lethargy = (function() {
-    function Lethargy(stability, sensitivity, tolerance) {
+    function Lethargy(stability, sensitivity, tolerance, delay) {
       this.stability = stability != null ? Math.abs(stability) : 8;
       this.sensitivity = sensitivity != null ? 1 + Math.abs(sensitivity) : 100;
       this.tolerance = tolerance != null ? 1 + Math.abs(tolerance) : 1.1;
+      this.delay = delay != null ? delay : 150;
       this.lastUpDeltas = (function() {
         var i, ref, results;
         results = [];
@@ -65,7 +66,7 @@
       if (lastDeltas[0] === null) {
         return direction;
       }
-      if (this.deltasTimestamp[(this.stability * 2) - 2] + 150 > Date.now() && lastDeltas[0] === lastDeltas[(this.stability * 2) - 1]) {
+      if (this.deltasTimestamp[(this.stability * 2) - 2] + this.delay > Date.now() && lastDeltas[0] === lastDeltas[(this.stability * 2) - 1]) {
         return false;
       }
       lastDeltasOld = lastDeltas.slice(0, this.stability);

@@ -1,7 +1,7 @@
 root = exports ? this
 
 class root.Lethargy
-  constructor: (stability, sensitivity, tolerance) ->
+  constructor: (stability, sensitivity, tolerance, delay) ->
 
     # Stability is how many records to use to calculate the average
     @stability = if stability? then Math.abs stability else 8
@@ -11,7 +11,10 @@ class root.Lethargy
 
     # How much the old rolling average have to differ from the new rolling average for it to be deemed significant
     @tolerance = if tolerance? then 1 + Math.abs tolerance else 1.1
-    
+
+    # Threshold for the amount of time between mousewheel events for them to be deemed separate
+    @delay = if delay? then delay else 150
+
     # Used internally and should not be manipulated
     @lastUpDeltas = (null for [1..(@stability * 2)])
     @lastDownDeltas = (null for [1..(@stability * 2)])
@@ -54,8 +57,8 @@ class root.Lethargy
     if lastDeltas[0] == null
       return direction
 
-    # If the last mousewheel occurred within 150 miliseconds of the penultimate one, and their values are the same. We will assume that this is a trackpad with a constant profile, and will return false
-    if @deltasTimestamp[(this.stability * 2) - 2] + 150 > Date.now() and lastDeltas[0] == lastDeltas[(@stability * 2) - 1]
+    # If the last mousewheel occurred within the specified delay of the penultimate one, and their values are the same. We will assume that this is a trackpad with a constant profile, and will return false
+    if @deltasTimestamp[(this.stability * 2) - 2] + @delay > Date.now() and lastDeltas[0] == lastDeltas[(@stability * 2) - 1]
       return false
 
     # Check to see if the new rolling average (based on the last half of the lastDeltas array) is significantly higher than the old rolling average. If so return direction, else false
