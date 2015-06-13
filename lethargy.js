@@ -38,7 +38,6 @@
     Lethargy.prototype.check = function(e) {
       var lastDelta;
       e = e.originalEvent || e;
-      lastDelta;
       if (e.wheelDelta != null) {
         lastDelta = e.wheelDelta;
       } else if (e.deltaY != null) {

@@ -11,7 +11,6 @@ class root.Lethargy
 
   check: (e) ->
     e = e.originalEvent || e
-    lastDelta
     if e.wheelDelta?
       lastDelta = e.wheelDelta
     else if e.deltaY?
