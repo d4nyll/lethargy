@@ -1,4 +1,5 @@
 # Lethargy
+[![CDNJS](https://img.shields.io/cdnjs/v/lethargy.svg)](https://cdnjs.com/libraries/lethargy)
 
 Lethargy is a tiny (612b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does ***not*** have external dependencies.
 
