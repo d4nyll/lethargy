@@ -36,7 +36,7 @@ Bind the mousewheel or scroll events and pass the event to Lethargy.
 
     $(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
         e.preventDefault()
-        e.stopPropagation();
+        e.stopPropagation()
         if(lethargy.check(e) !== false) {
             // Do something with the scroll event
         }
