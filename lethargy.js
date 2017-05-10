@@ -1,31 +1,39 @@
-let root = typeof exports !== 'undefined' && exports !== null ? exports : this;
+function range(left, right) {
+  let range = [];
+  const ascending = left < right;
+  const end = ascending ? right + 1 : right - 1;
+  for (let i = left; ascending ? i < end : i > end; ascending ? i += 1 : i -= 1) {
+    range.push(i);
+  }
+  return range;
+}
 
-root.Lethargy = class Lethargy {
+class Lethargy {
   constructor(stability, sensitivity, tolerance, delay) {
-
     // Stability is how many records to use to calculate the average
     this.stability = (stability != null) ? Math.abs(stability) : 8;
 
     // The wheelDelta threshold. If an event has a wheelDelta below this value, it will not register
     this.sensitivity = (sensitivity != null) ? 1 + Math.abs(sensitivity) : 100;
 
-    // How much the old rolling average have to differ from the new rolling average for it to be deemed significant
+    // How much the old rolling average have to differ
+    // from the new rolling average for it to be deemed significant
     this.tolerance = (tolerance != null) ? 1 + Math.abs(tolerance) : 1.1;
 
     // Threshold for the amount of time between mousewheel events for them to be deemed separate
     this.delay = (delay != null) ? delay : 150;
 
     // Used internally and should not be manipulated
-    this.lastUpDeltas = (__range__(1, (this.stability * 2), true).map((i) => null));
-    this.lastDownDeltas = (__range__(1, (this.stability * 2), true).map((j) => null));
-    this.deltasTimestamp = (__range__(1, (this.stability * 2), true).map((k) => null));
+    this.lastUpDeltas = (range(1, (this.stability * 2)).map(() => null));
+    this.lastDownDeltas = (range(1, (this.stability * 2)).map(() => null));
+    this.deltasTimestamp = (range(1, (this.stability * 2)).map(() => null));
   }
 
   // Checks whether the mousewheel event is an intent
-  check(e) {
+  check(event) {
     // Use jQuery's e.originalEvent if available
     let lastDelta;
-    e = e.originalEvent || e;
+    const e = event.originalEvent || event;
 
     // Standardise wheelDelta values for different browsers
     if (e.wheelDelta != null) {
@@ -56,29 +64,35 @@ root.Lethargy = class Lethargy {
 
   isInertia(direction) {
     // Get the relevant last*Delta array
-    let lastDeltas = direction === -1 ? this.lastDownDeltas : this.lastUpDeltas;
+    const lastDeltas = direction === -1 ? this.lastDownDeltas : this.lastUpDeltas;
 
-    // If the array is not filled up yet, we cannot compare averages, so assume the scroll event to be intentional
+    // If the array is not filled up yet, we cannot compare averages
+    // so assume the scroll event to be intentional
     if (lastDeltas[0] === null) {
       return direction;
     }
 
-    // If the last mousewheel occurred within the specified delay of the penultimate one, and their values are the same. We will assume that this is a trackpad with a constant profile, and will return false
-    if (((this.deltasTimestamp[(this.stability * 2) - 2] + this.delay) > Date.now()) && (lastDeltas[0] === lastDeltas[(this.stability * 2) - 1])) {
+    // If the last mousewheel occurred within the specified delay of the penultimate one,
+    // and their values are the same. We will assume that this is a trackpad
+    // with a constant profile and will return false
+    if (((this.deltasTimestamp[(this.stability * 2) - 2] + this.delay) > Date.now())
+        && (lastDeltas[0] === lastDeltas[(this.stability * 2) - 1])) {
       return false;
     }
 
-    // Check to see if the new rolling average (based on the last half of the lastDeltas array) is significantly higher than the old rolling average. If so return direction, else false
-    let lastDeltasOld = lastDeltas.slice(0, this.stability);
-    let lastDeltasNew = lastDeltas.slice(this.stability, (this.stability * 2));
+    // Check to see if the new rolling average (based on the last half of the lastDeltas array)
+    // is significantly higher than the old rolling average. If so return direction, else false
+    const lastDeltasOld = lastDeltas.slice(0, this.stability);
+    const lastDeltasNew = lastDeltas.slice(this.stability, (this.stability * 2));
 
-    let oldSum = lastDeltasOld.reduce((t, s) => t + s);
-    let newSum = lastDeltasNew.reduce((t, s) => t + s);
+    const oldSum = lastDeltasOld.reduce((t, s) => t + s);
+    const newSum = lastDeltasNew.reduce((t, s) => t + s);
 
-    let oldAverage = oldSum / lastDeltasOld.length;
-    let newAverage = newSum / lastDeltasNew.length;
+    const oldAverage = oldSum / lastDeltasOld.length;
+    const newAverage = newSum / lastDeltasNew.length;
 
-    if ((Math.abs(oldAverage) < Math.abs(newAverage * this.tolerance)) && (this.sensitivity < Math.abs(newAverage))) {
+    if ((Math.abs(oldAverage) < Math.abs(newAverage * this.tolerance))
+        && (this.sensitivity < Math.abs(newAverage))) {
       return direction;
     } else {
       return false;
@@ -92,13 +106,4 @@ root.Lethargy = class Lethargy {
   showLastDownDeltas() {
     return this.lastDownDeltas;
   }
-};
-function __range__(left, right, inclusive) {
-  let range = [];
-  let ascending = left < right;
-  let end = !inclusive ? right : ascending ? right + 1 : right - 1;
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i);
-  }
-  return range;
 }

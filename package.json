@@ -4,6 +4,8 @@
   "description": "Distinguish between scroll events initiated by the user, and those by inertial scrolling",
   "main": "lethargy.js",
   "scripts": {
+    "compile": "babel lethargy.js -o lethargy.es5.js",
+    "minify": "uglifyjs lethargy.es5.js --output lethargy.min.js -m -c",
     "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
     "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
   },
@@ -29,11 +31,14 @@
   },
   "homepage": "https://github.com/d4nyll/lethargy",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.18.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-plugin-import": "^2.2.0",
     "jquery": "^2.1.4",
     "prova": "^2.1.2",
-    "tiny-trigger": "scottcorgan/tiny-trigger"
+    "tiny-trigger": "scottcorgan/tiny-trigger",
+    "uglify-js": "^3.0.3"
   }
 }
