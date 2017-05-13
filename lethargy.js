@@ -1,48 +1,46 @@
-function range(left, right) {
-  let range = [];
-  const ascending = left < right;
-  const end = ascending ? right + 1 : right - 1;
-  for (let i = left; ascending ? i < end : i > end; ascending ? i += 1 : i -= 1) {
-    range.push(i);
-  }
-  return range;
-}
-
 class Lethargy {
   constructor(stability, sensitivity, tolerance, delay) {
+
+    const DEFAULT_STABILITY = 8;
+    const DEFAULT_SENSITIVITY = 100;
+    const DEFAULT_TOLERANCE = 1.1;
+    const DEFAULT_DELAY = 150;
+
     // Stability is how many records to use to calculate the average
-    this.stability = (stability != null) ? Math.abs(stability) : 8;
+    this.stability = stability !== null ? Math.abs(stability) : DEFAULT_STABILITY;
 
     // The wheelDelta threshold. If an event has a wheelDelta below this value, it will not register
-    this.sensitivity = (sensitivity != null) ? 1 + Math.abs(sensitivity) : 100;
+    this.sensitivity = sensitivity !== null ? 1 + Math.abs(sensitivity) : DEFAULT_SENSITIVITY;
 
     // How much the old rolling average have to differ
     // from the new rolling average for it to be deemed significant
-    this.tolerance = (tolerance != null) ? 1 + Math.abs(tolerance) : 1.1;
+    this.tolerance = tolerance !== null ? 1 + Math.abs(tolerance) : DEFAULT_TOLERANCE;
 
     // Threshold for the amount of time between mousewheel events for them to be deemed separate
-    this.delay = (delay != null) ? delay : 150;
+    this.delay = delay !== null ? delay : DEFAULT_DELAY;
 
     // Used internally and should not be manipulated
-    this.lastUpDeltas = (range(1, (this.stability * 2)).map(() => null));
-    this.lastDownDeltas = (range(1, (this.stability * 2)).map(() => null));
-    this.deltasTimestamp = (range(1, (this.stability * 2)).map(() => null));
+    this.lastUpDeltas = new Array(this.stability * 2).fill(null);
+    this.lastDownDeltas = new Array(this.stability * 2).fill(null);
+    this.deltasTimestamp = new Array(this.stability * 2).fill(null);
+  }
+
+  static extractWheelDelta(event) {
+    // Standardise wheelDelta values for different browsers
+    if (event.wheelDelta !== null) {
+      return event.wheelDelta;
+    } else if (event.deltaY !== null) {
+      return event.deltaY * -40;
+    } else if ((event.detail !== null) || (event.detail === 0)) {
+      return event.detail * -40;
+    }
   }
 
   // Checks whether the mousewheel event is an intent
+  // TODO: Change the method name to handleEvent
   check(event) {
     // Use jQuery's e.originalEvent if available
-    let lastDelta;
-    const e = event.originalEvent || event;
-
-    // Standardise wheelDelta values for different browsers
-    if (e.wheelDelta != null) {
-      lastDelta = e.wheelDelta;
-    } else if (e.deltaY != null) {
-      lastDelta = e.deltaY * -40;
-    } else if ((e.detail != null) || (e.detail === 0)) {
-      lastDelta = e.detail * -40;
-    }
+    const lastDelta = extractWheelDelta(event.originalEvent || event);
 
     // Add the new event timestamp to deltasTimestamp array, and remove the oldest entry
     this.deltasTimestamp.push(Date.now());
@@ -59,9 +57,10 @@ class Lethargy {
       this.lastDownDeltas.shift();
       return this.isInertia(-1);
     }
-    return false;
   }
 
+  // Checks if the event is an inertial scroll event, if not, return 1 or -1 depending on the direction
+  // TODO: Change the name of the method, as it currently implies a boolean return value
   isInertia(direction) {
     // Get the relevant last*Delta array
     const lastDeltas = direction === -1 ? this.lastDownDeltas : this.lastUpDeltas;
