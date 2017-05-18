@@ -54,7 +54,7 @@
 				// If you need to use the result in more than one place
 				// you MUST store it as a variable and use that variable instead
 				// See https://github.com/d4nyll/lethargy/issues/5
-				var result = lethargy.check(e);
+				var result = lethargy.handleEvent(e);
 
 				// false means it's not a scroll intent, 1 or -1 means it is
 				console.log(result);
