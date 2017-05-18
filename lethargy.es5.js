@@ -108,15 +108,17 @@ var Lethargy = function () {
     }
   }], [{
     key: "extractWheelDelta",
-    value: function extractWheelDelta(event) {
+    value: function extractWheelDelta(e) {
       // Standardise wheelDelta values for different browsers
-      if (event.wheelDelta !== null) {
-        return event.wheelDelta;
-      } else if (event.deltaY !== null) {
-        return event.deltaY * -40;
-      } else if (event.detail !== null || event.detail === 0) {
-        return event.detail * -40;
+      var lastDelta = void 0;
+      if (e.wheelDelta != null) {
+        lastDelta = e.wheelDelta;
+      } else if (e.deltaY != null) {
+        lastDelta = e.deltaY * -40;
+      } else if (e.detail != null || e.detail === 0) {
+        lastDelta = e.detail * -40;
       }
+      return lastDelta;
     }
   }]);
 

@@ -19,15 +19,17 @@ class Lethargy {
     this.deltasTimestamp = new Array(this.opts.stability * 2).fill(null);
   }
 
-  static extractWheelDelta(event) {
+  static extractWheelDelta(e) {
     // Standardise wheelDelta values for different browsers
-    if (event.wheelDelta !== null) {
-      return event.wheelDelta;
-    } else if (event.deltaY !== null) {
-      return event.deltaY * -40;
-    } else if ((event.detail !== null) || (event.detail === 0)) {
-      return event.detail * -40;
+    let lastDelta;
+    if (e.wheelDelta != null) {
+      lastDelta = e.wheelDelta;
+    } else if (e.deltaY != null) {
+      lastDelta = e.deltaY * -40;
+    } else if ((e.detail != null) || (e.detail === 0)) {
+      lastDelta = e.detail * -40;
     }
+    return lastDelta;
   }
 
   // Checks whether the mousewheel event is an intent
