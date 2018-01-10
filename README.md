@@ -1,5 +1,6 @@
 # Lethargy
 [![CDNJS](https://img.shields.io/cdnjs/v/lethargy.svg)](https://cdnjs.com/libraries/lethargy)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fd4nyll%2Flethargy.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fd4nyll%2Flethargy?ref=badge_shield)
 
 Lethargy is a tiny (612b minified + gzipped) JavaScript library to help distinguish between scroll events initiated by the user, and those by inertial scrolling. Lethargy does ***not*** have external dependencies.
 
@@ -86,3 +87,7 @@ Not all trackpads work the same, some trackpads do not have a decaying `wheelDel
 **ASUS Trackpad**
 
 ![ASUS Trackpad](http://blog.danyll.com/content/images/2015/05/asus.png)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fd4nyll%2Flethargy.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fd4nyll%2Flethargy?ref=badge_large)
