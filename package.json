@@ -1,6 +1,6 @@
 {
   "name": "lethargy",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Distinguish between scroll events initiated by the user, and those by inertial scrolling",
   "main": "lethargy.js",
   "scripts": {
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/d4nyll/lethargy",
   "devDependencies": {
-    "jquery": "^2.1.4",
+    "jquery": "^3.0.0",
     "prova": "^2.1.2",
     "tiny-trigger": "scottcorgan/tiny-trigger"
   }
