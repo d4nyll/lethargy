@@ -5,7 +5,8 @@
   "main": "lethargy.js",
   "scripts": {
     "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
-    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
+    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome",
+    "postinstall": "opencollective postinstall"
   },
   "repository": {
     "type": "git",
@@ -32,5 +33,13 @@
     "jquery": "^3.0.0",
     "prova": "^2.1.2",
     "tiny-trigger": "scottcorgan/tiny-trigger"
+  },
+  "dependencies": {
+    "opencollective": "^1.0.3"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/lethargy",
+    "logo": "https://opencollective.com/lethargy/logo.txt"
   }
 }
