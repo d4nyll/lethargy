@@ -48,6 +48,20 @@ Bind the mousewheel or scroll events and pass the event to Lethargy.
 
 Lethargy focus on preventing false positives (saying it's a normal scroll event when it wasn't), but tolerates false negatives (saying it's not a normal scroll event when it is).
 
+#### Webpack
+
+If you are using Webpack, you can use the [`exports-loader`](https://www.npmjs.com/package/exports-loader) to require the `Lethargy` constructor.
+
+```
+$ yarn add exports-loader
+```
+
+Then, to import Lethargy:
+
+```
+const Lethargy = require("exports-loader?this.Lethargy!lethargy/lethargy");
+```
+
 ### Options
 
 All options are optional.
