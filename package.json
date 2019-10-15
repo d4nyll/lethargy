@@ -1,6 +1,6 @@
 {
   "name": "lethargy",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Distinguish between scroll events initiated by the user, and those by inertial scrolling",
   "main": "lethargy.js",
   "repository": {
