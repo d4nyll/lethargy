@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/d4nyll/lethargy",
   "devDependencies": {
-    "jquery": "^3.4.0",
+    "jquery": "^3.4.1",
     "prova": "^3.0.0",
     "tiny-trigger": "scottcorgan/tiny-trigger"
   }
